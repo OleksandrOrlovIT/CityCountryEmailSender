@@ -9,5 +9,4 @@ public class CityCountryEmailSenderApplication {
     public static void main(String[] args) {
         SpringApplication.run(CityCountryEmailSenderApplication.class, args);
     }
-
 }

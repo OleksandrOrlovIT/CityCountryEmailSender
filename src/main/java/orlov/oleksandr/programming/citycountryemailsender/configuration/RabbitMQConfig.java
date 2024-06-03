@@ -7,7 +7,7 @@ import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import orlov.oleksandr.programming.citycountryemailsender.service.messages.MessageReceiver;
+import orlov.oleksandr.programming.citycountryemailsender.service.rabbitmq.impl.RabbitMQMessageReceiver;
 
 @Configuration
 public class RabbitMQConfig {
@@ -33,7 +33,7 @@ public class RabbitMQConfig {
     }
 
     @Bean
-    public MessageListenerAdapter listenerAdapter(MessageReceiver receiver) {
+    public MessageListenerAdapter listenerAdapter(RabbitMQMessageReceiver receiver) {
         return new MessageListenerAdapter(receiver, "receiveMessage");
     }
 }
