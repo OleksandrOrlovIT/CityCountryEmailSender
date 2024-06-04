@@ -7,10 +7,6 @@ import java.util.Optional;
 
 public interface EmailMessageService {
     EmailMessage save(EmailMessage emailMessage);
-    
-    Optional<EmailMessage> findById(String id);
-    
-    List<EmailMessage> findAll();
-    
-    void deleteById(String id);
+
+    List<EmailMessage> findAllFailedMessages();
 }

@@ -6,6 +6,8 @@ import orlov.oleksandr.programming.citycountryemailsender.model.EmailMessage;
 import orlov.oleksandr.programming.citycountryemailsender.repository.EmailMessageRepository;
 import orlov.oleksandr.programming.citycountryemailsender.service.elasticSearch.EmailMessageService;
 
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -18,25 +20,12 @@ public class EmailMessageServiceImpl implements EmailMessageService {
 
     @Override
     public EmailMessage save(EmailMessage emailMessage) {
+        emailMessage.setLastTryDate(ZonedDateTime.now(ZoneId.of("Europe/Kiev")));
         return emailMessageRepository.save(emailMessage);
     }
 
     @Override
-    public Optional<EmailMessage> findById(String id) {
-        return emailMessageRepository.findById(id);
-    }
-
-    @Override
-    public List<EmailMessage> findAll() {
-        List<EmailMessage> list = new ArrayList<>();
-
-        emailMessageRepository.findAll().forEach(list::add);
-
-        return list;
-    }
-
-    @Override
-    public void deleteById(String id) {
-        emailMessageRepository.deleteById(id);
+    public List<EmailMessage> findAllFailedMessages() {
+        return emailMessageRepository.findByErrorMessageIsNotNull();
     }
 }
