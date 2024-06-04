@@ -28,4 +28,15 @@ public class EmailMessageServiceImpl implements EmailMessageService {
     public List<EmailMessage> findAllFailedMessages() {
         return emailMessageRepository.findByErrorMessageIsNotNull();
     }
+
+    @Override
+    public List<EmailMessage> findAll() {
+        List<EmailMessage> emailMessages = new ArrayList<>();
+
+        for (EmailMessage emailMessage : emailMessageRepository.findAll()) {
+            emailMessages.add(emailMessage);
+        }
+
+        return emailMessages;
+    }
 }

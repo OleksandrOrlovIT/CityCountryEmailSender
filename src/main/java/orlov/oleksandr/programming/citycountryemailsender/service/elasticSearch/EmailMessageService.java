@@ -9,4 +9,6 @@ public interface EmailMessageService {
     EmailMessage save(EmailMessage emailMessage);
 
     List<EmailMessage> findAllFailedMessages();
+
+    List<EmailMessage> findAll();
 }
