@@ -18,10 +18,10 @@ public class EmailConfig {
     @Bean
     public JavaMailSender javaMailSender() {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-        mailSender.setHost(dotenv.get("EMAIL_HOST"));
-        mailSender.setPort(Integer.parseInt(dotenv.get("EMAIL_PORT")));
-        mailSender.setUsername(dotenv.get("EMAIL_USERNAME"));
-        mailSender.setPassword(dotenv.get("EMAIL_PASSWORD"));
+        mailSender.setHost(dotenv.get("MAIL_HOST"));
+        mailSender.setPort(Integer.parseInt(dotenv.get("MAIL_PORT")));
+        mailSender.setUsername(dotenv.get("MAIL_USERNAME"));
+        mailSender.setPassword(dotenv.get("MAIL_PASSWORD"));
 
         Properties props = mailSender.getJavaMailProperties();
         props.put("mail.transport.protocol", "smtp");
