@@ -1,16 +1,10 @@
 version: '3'
-services:
-  rabbitmq:
-    image: rabbitmq:3-management
-    container_name: rabbitmq
-    ports:
-      - "5672:5672"
-      - "15672:15672"
-    environment:
-      RABBITMQ_DEFAULT_USER: guest
-      RABBITMQ_DEFAULT_PASS: guest
-    mem_limit: 1g
 
+networks:
+  city-country-net:
+    driver: bridge
+
+services:
   elasticsearch:
     image: elasticsearch:8.6.1
     container_name: elasticsearch
@@ -18,10 +12,15 @@ services:
       - discovery.type=single-node
       - ES_JAVA_OPTS=-Xms1g -Xmx1g
       - xpack.security.enabled=false
-#    volumes:
-#      - ./data:/usr/share/elasticsearch/data
     ports:
       - "9200:9200"
+    networks:
+      - city-country-net
+    healthcheck:
+      test: curl -u elastic:elastic -s -f elasticsearch:9200/_cat/health >/dev/null || exit 1
+      interval: 30s
+      timeout: 10s
+      retries: 5
     mem_limit: 3g
 
   kibana:
@@ -31,4 +30,40 @@ services:
       - "5601:5601"
     depends_on:
       - elasticsearch
+    networks:
+      - city-country-net
     mem_limit: 2g
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    networks:
+      - city-country-net
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 10s
+    mem_limit: 1g
+
+  spring-boot-app:
+    container_name: city_country_email_sender
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    networks:
+      - city-country-net
+    mem_limit: 1g
