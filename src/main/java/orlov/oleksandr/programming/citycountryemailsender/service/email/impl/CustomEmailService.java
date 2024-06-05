@@ -9,6 +9,9 @@ import orlov.oleksandr.programming.citycountryemailsender.model.EmailMessage;
 import orlov.oleksandr.programming.citycountryemailsender.model.SendStatus;
 import orlov.oleksandr.programming.citycountryemailsender.service.email.EmailService;
 
+/**
+ * Implementation for EmailService to send emails
+ */
 @AllArgsConstructor
 @Service
 @Slf4j
@@ -16,6 +19,12 @@ public class CustomEmailService implements EmailService {
 
     private final JavaMailSender emailSender;
 
+    /**
+     * Method to send emails
+     * @param to
+     * @param subject
+     * @param text
+     */
     @Override
     public void sendEmail(String to, String subject, String text) {
         SimpleMailMessage message = new SimpleMailMessage();
@@ -25,6 +34,11 @@ public class CustomEmailService implements EmailService {
         emailSender.send(message);
     }
 
+    /**
+     * Method to send emails with passed information
+     * @param emailMessage
+     * @return
+     */
     public EmailMessage sendEmailMessage(EmailMessage emailMessage){
         try {
             sendEmail(emailMessage.getEmail(), emailMessage.getSubject(), emailMessage.getContent());

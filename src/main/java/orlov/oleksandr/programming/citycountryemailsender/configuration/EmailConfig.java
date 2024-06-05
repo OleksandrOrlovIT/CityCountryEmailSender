@@ -9,12 +9,19 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 
 import java.util.Properties;
 
+/**
+ * Configuration class for Email setup.
+ */
 @AllArgsConstructor
 @Configuration
 public class EmailConfig {
 
     private final Dotenv dotenv;
 
+    /**
+     * Provides the JavaMailSender bean configured with email server details.
+     * @return JavaMailSender object configured with host, port, username, and password.
+     */
     @Bean
     public JavaMailSender javaMailSender() {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();

@@ -6,12 +6,19 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.elasticsearch.client.ClientConfiguration;
 import org.springframework.data.elasticsearch.client.elc.ElasticsearchConfiguration;
 
+/**
+ * Configuration class for Elasticsearch setup.
+ */
 @AllArgsConstructor
 @Configuration
 public class ElasticSearchConfig extends ElasticsearchConfiguration {
 
     private final Dotenv dotenv;
 
+    /**
+     * Provides the client configuration for Elasticsearch.
+     * @return ClientConfiguration object configured with the Elasticsearch host and port.
+     */
     @Override
     public ClientConfiguration clientConfiguration() {
         return ClientConfiguration.builder()

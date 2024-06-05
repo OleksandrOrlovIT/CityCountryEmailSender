@@ -12,6 +12,9 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 import java.time.ZonedDateTime;
 import java.util.Objects;
 
+/**
+ * EmailMessage entity document for elasticsearch
+ */
 @NoArgsConstructor
 @Setter
 @Getter

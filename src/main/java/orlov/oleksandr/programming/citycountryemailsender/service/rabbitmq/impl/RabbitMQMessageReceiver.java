@@ -12,6 +12,9 @@ import orlov.oleksandr.programming.citycountryemailsender.service.rabbitmq.Messa
 
 import java.util.Map;
 
+/**
+ * Service class for receiving and processing RabbitMQ messages.
+ */
 @Slf4j
 @AllArgsConstructor
 @Service
@@ -22,6 +25,12 @@ public class RabbitMQMessageReceiver implements MessageReceiver {
 
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
+    /**
+     * Receives and processes a message from RabbitMQ.
+     * Converts the message to an EmailMessage object, saves it,
+     * attempts to send the email, and saves the updated email message status.
+     * @param message the message to be processed.
+     */
     public void receiveMessage(String message) {
         try {
             Map<String, String> messageContent = objectMapper.readValue(message, Map.class);
